@@ -100,6 +100,10 @@ void execute (string filename, string treename, string outfilename) {
     for (int i = 0; i < TotalEvents; i++) {
         intree->GetEntry(i);
 
+        if (i % 100000 == 0) {
+            cout << "Processing event " << i << " / " << TotalEvents << std::endl;
+        }
+
         if (muonTag == 1) nMuonsTotal++;
 
         if (deltaT_muon < 0.002 || muonTag != 0) continue;
