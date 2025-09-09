@@ -13,3 +13,6 @@
 *.d
 *.so
 /.vscode
+*.nb
+*.ipynb
+*.x
