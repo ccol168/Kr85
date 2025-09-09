@@ -48,7 +48,7 @@ def create_c_launch(RunName):
         c_launch_file.write(
             "condor_submit -spool -name sn01-htc.cr.cnaf.infn.it -batch-name "
             + RunID
-            + " /storage/gpfs_data/juno/junofs/users/ccoletta/BiPo212/With_JVertex/sub/"
+            + " /storage/gpfs_data/juno/junofs/users/ccoletta/Kr85/sub/"
             + RunID
             + ".sub\n"
         )

@@ -10,7 +10,7 @@ def make_sh (infile, RunID) :
     with open(thispath + "/sh/" + RunID + ".sh" , "w") as file:
         file.write("#!/bin/bash \n")
         file.write("source /cvmfs/juno.ihep.ac.cn/el9_amd64_gcc11/Release/Jlatest/setup.sh \n")
-        file.write(f"{thispath}/JVertex_BiPo212/JVertex_BiPo212_reader {infile} CdEvents {outfile} &> {logfile} \n")
+        file.write(f"{thispath}/Select_Kr85/JVertex_Kr85_reader.x {infile} CdEvents {outfile} &> {logfile} \n")
 
     os.chmod(thispath + "/sh/" + RunID + ".sh",0o774 )
     return
