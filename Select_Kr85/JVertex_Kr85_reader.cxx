@@ -93,6 +93,7 @@ void execute (string filename, string treename, string outfilename) {
         float JRecoX, JRecoY, JRecoZ;
         float deltaT_muon, RecoEnergy, NPE;
         int fSec, fNanoSec;
+        int Nhit;
     };
 
    std::deque<EventInfo> window;
@@ -138,6 +139,7 @@ void execute (string filename, string treename, string outfilename) {
                 prompt_NPE = cand.NPE;
                 prompt_fSec = cand.fSec;
                 prompt_fNanoSec = cand.fNanoSec;
+                prompt_Nhit = cand.Nhit;
 
                 delayed_JRecoX = evt.JRecoX;
                 delayed_JRecoY = evt.JRecoY;
@@ -147,6 +149,7 @@ void execute (string filename, string treename, string outfilename) {
                 delayed_NPE = evt.NPE;
                 delayed_fSec = evt.fSec;
                 delayed_fNanoSec = evt.fNanoSec;
+                delayed_Nhit = evt.Nhit;
 
                 pair_dt_us = dt_us;
                 pair_tree->Fill();
@@ -174,6 +177,7 @@ void execute (string filename, string treename, string outfilename) {
     fin_lt->Close();
 
     // --- Write summary tree ---
+    file_out->cd(); 
     TTree* summaryTree = new TTree("summary", "Run summary");
     summaryTree->Branch("nMuonsTotal", &nMuonsTotal, "nMuonsTotal/I");
     summaryTree->Branch("runLength", &runLength, "runLength/F");
