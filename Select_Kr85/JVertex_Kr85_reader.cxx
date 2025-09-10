@@ -111,7 +111,7 @@ void execute (string filename, string treename, string outfilename) {
 
         EventInfo evt{JRecoX, JRecoY, JRecoZ,
                     deltaT_muon, RecoEnergy,
-                    npe, fSec, fNanoSec};
+                    npe, fSec, fNanoSec, Nhit};
 
         long long t_evt = static_cast<long long>(evt.fSec) * 1000000000LL + evt.fNanoSec;
 
