@@ -8,10 +8,9 @@ def find_files_with_string(directory, run_name):
     """
     pattern = re.compile(rf'^RUN{run_name}_\d{{8}}\.root$')
     matching_files = []
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            if pattern.match(file):
-                matching_files.append(os.path.join(root, file))
+    for file in os.listdir(directory):
+        if pattern.match(file):
+            matching_files.append(os.path.join(directory, file))
     return matching_files
 
 def extract_name(filepath):
