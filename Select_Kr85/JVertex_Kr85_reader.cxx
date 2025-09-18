@@ -107,6 +107,7 @@ void execute (string filename, string treename, string outfilename) {
         if (muonTag == 1) nMuonsTotal++;
 
         if (i < 20) cout << "Trigger Type = " << (*triggerType)[0] << endl;
+        else break;
 
         // Check triggerType[0] == "Multiplic" for vector<string>*
         if (!triggerType || triggerType->empty() || (*triggerType)[0] != "Multiplic") continue;
