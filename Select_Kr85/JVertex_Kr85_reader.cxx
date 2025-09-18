@@ -72,6 +72,7 @@ void execute (string filename, string treename, string outfilename) {
     int fSec, fNanoSec, muonTag, Nhit;
 	float npe, deltaT_muon, RecoEnergy;
 	float JRecoX, JRecoY, JRecoZ;
+    std::vector<std::string>* triggerType = nullptr;
 
 	intree -> SetBranchAddress("fSec",&fSec);
 	intree -> SetBranchAddress("fNanoSec",&fNanoSec);
@@ -86,6 +87,7 @@ void execute (string filename, string treename, string outfilename) {
 	intree -> SetBranchAddress("JRecoZ",&JRecoZ);
 	intree -> SetBranchAddress("RecoEnergy_MP",&RecoEnergy);
     intree -> SetBranchAddress("muonTag",&muonTag);
+    intree -> SetBranchAddress("triggerType", &triggerType);
 
 
     int TotalEvents = intree -> GetEntries();
@@ -106,6 +108,9 @@ void execute (string filename, string treename, string outfilename) {
         }
 
         if (muonTag == 1) nMuonsTotal++;
+
+    // Check triggerType[0] == "Multiplic" for vector<string>*
+    if (!triggerType || triggerType->empty() || (*triggerType)[0] != "Multiplic") continue;
 
         if (deltaT_muon < 0.002 || muonTag != 0) continue;
 
