@@ -76,9 +76,6 @@ void execute (string filename, string treename, string outfilename) {
 
 	intree -> SetBranchAddress("fSec",&fSec);
 	intree -> SetBranchAddress("fNanoSec",&fNanoSec);
-	intree -> SetBranchAddress("PMTID",&PMTID);
-    intree -> SetBranchAddress("Charge",&Charge);
-    intree -> SetBranchAddress("Time",&Time);
     intree -> SetBranchAddress("npe",&npe);
     intree -> SetBranchAddress("Nhit",&Nhit);
     intree -> SetBranchAddress("deltaT_muon",&deltaT_muon);
