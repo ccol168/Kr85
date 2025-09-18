@@ -106,8 +106,10 @@ void execute (string filename, string treename, string outfilename) {
 
         if (muonTag == 1) nMuonsTotal++;
 
-    // Check triggerType[0] == "Multiplic" for vector<string>*
-    if (!triggerType || triggerType->empty() || (*triggerType)[0] != "Multiplic") continue;
+        if (i < 20) cout << "Trigger Type = " << (*triggerType)[0] << endl;
+
+        // Check triggerType[0] == "Multiplic" for vector<string>*
+        if (!triggerType || triggerType->empty() || (*triggerType)[0] != "Multiplic") continue;
 
         if (deltaT_muon < 0.002 || muonTag != 0) continue;
 
