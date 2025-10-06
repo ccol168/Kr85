@@ -30,11 +30,11 @@ void execute (string filename, string treename, string outfilename) {
 
     // Variables for prompt and delayed events
     Float_t prompt_JRecoX, prompt_JRecoY, prompt_JRecoZ;
-    Float_t prompt_deltaT_muon, prompt_RecoEnergy, prompt_NPE;
+    Float_t prompt_deltaT_muon_NPEcut,prompt_deltaT_muon, prompt_RecoEnergy, prompt_NPE;
     Int_t   prompt_fSec, prompt_fNanoSec;
 
     Float_t delayed_JRecoX, delayed_JRecoY, delayed_JRecoZ;
-    Float_t delayed_deltaT_muon, delayed_RecoEnergy, delayed_NPE;
+    Float_t delayed_deltaT_muon_NPEcut, delayed_deltaT_muon, delayed_RecoEnergy, delayed_NPE;
     Int_t   delayed_fSec, delayed_fNanoSec;
     Int_t   prompt_Nhit, delayed_Nhit;
 
@@ -44,6 +44,7 @@ void execute (string filename, string treename, string outfilename) {
     pair_tree->Branch("prompt_JRecoY", &prompt_JRecoY, "prompt_JRecoY/F");
     pair_tree->Branch("prompt_JRecoZ", &prompt_JRecoZ, "prompt_JRecoZ/F");
     pair_tree->Branch("prompt_deltaT_muon", &prompt_deltaT_muon, "prompt_deltaT_muon/F");
+    pair_tree->Branch("prompt_deltaT_muon_NPEcut", &prompt_deltaT_muon_NPEcut, "prompt_deltaT_muon_NPEcut/F");
     pair_tree->Branch("prompt_RecoEnergy", &prompt_RecoEnergy, "prompt_RecoEnergy/F");
     pair_tree->Branch("prompt_NPE", &prompt_NPE, "prompt_NPE/F");
     pair_tree->Branch("prompt_fSec", &prompt_fSec, "prompt_fSec/I");
@@ -54,6 +55,7 @@ void execute (string filename, string treename, string outfilename) {
     pair_tree->Branch("delayed_JRecoY", &delayed_JRecoY, "delayed_JRecoY/F");
     pair_tree->Branch("delayed_JRecoZ", &delayed_JRecoZ, "delayed_JRecoZ/F");
     pair_tree->Branch("delayed_deltaT_muon", &delayed_deltaT_muon, "delayed_deltaT_muon/F");
+    pair_tree->Branch("delayed_deltaT_muon_NPEcut", &delayed_deltaT_muon_NPEcut, "delayed_deltaT_muon_NPEcut/F");
     pair_tree->Branch("delayed_RecoEnergy", &delayed_RecoEnergy, "delayed_RecoEnergy/F");
     pair_tree->Branch("delayed_NPE", &delayed_NPE, "delayed_NPE/F");
     pair_tree->Branch("delayed_fSec", &delayed_fSec, "delayed_fSec/I");
@@ -96,12 +98,19 @@ void execute (string filename, string treename, string outfilename) {
     };
 
    std::deque<EventInfo> window;
+   double fSec_lastmuon = -1.;
+   double fNanoSec_lastmuon = -1.;
 
     for (int i = 0; i < TotalEvents; i++) {
         intree->GetEntry(i);
 
         if (i % 100000 == 0) {
             cout << "Processing event " << i << " / " << TotalEvents << std::endl;
+        }
+
+        if (npe > 200000) {
+            fSec_lastmuon = fSec;
+            fNanoSec_lastmuon = fNanoSec;
         }
 
         if (muonTag == 1) nMuonsTotal++;
@@ -142,6 +151,7 @@ void execute (string filename, string treename, string outfilename) {
                 prompt_fSec = cand.fSec;
                 prompt_fNanoSec = cand.fNanoSec;
                 prompt_Nhit = cand.Nhit;
+                prompt_deltaT_muon_NPEcut = static_cast<double>( cand.fSec - fSec_lastmuon ) + static_cast<double>(cand.fNanoSec - fNanoSec_lastmuon) * 1e-9; 
 
                 delayed_JRecoX = evt.JRecoX;
                 delayed_JRecoY = evt.JRecoY;
@@ -152,6 +162,7 @@ void execute (string filename, string treename, string outfilename) {
                 delayed_fSec = evt.fSec;
                 delayed_fNanoSec = evt.fNanoSec;
                 delayed_Nhit = evt.Nhit;
+                delayed_deltaT_muon_NPEcut = static_cast<double>( evt.fSec - fSec_lastmuon ) + static_cast<double>(evt.fNanoSec - fNanoSec_lastmuon) * 1e-9; 
 
                 pair_dt_us = dt_us;
                 pair_tree->Fill();
