@@ -129,7 +129,7 @@ void execute (string filename, string treename, string outfilename) {
         // Remove old events (more than 5 µs before current)
         while (!window.empty()) {
             long long t_old = static_cast<long long>(window.front().fSec) * 1000000000LL + window.front().fNanoSec;
-            if ((t_evt - t_old) / 1000.0 > 5.0) {
+            if ((t_evt - t_old) / 1000.0 > 50.0) {
                 window.pop_front();
             } else {
                 break;
@@ -140,7 +140,7 @@ void execute (string filename, string treename, string outfilename) {
         for (auto &cand : window) {
             long long t_cand = static_cast<long long>(cand.fSec) * 1000000000LL + cand.fNanoSec;
             float dt_us = (t_evt - t_cand) / 1000.0;
-            if (dt_us > 0 && dt_us < 5.0) {
+            if (dt_us > 10.0 && dt_us < 50.0) {
                 // Fill with cand = prompt, evt = delayed
                 prompt_JRecoX = cand.JRecoX;
                 prompt_JRecoY = cand.JRecoY;
