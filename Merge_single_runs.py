@@ -19,7 +19,7 @@ def is_valid_root_file(file_path, tree_name):
     except Exception:
         return False
 
-def merge_runs(input_folder, output_folder, run_min, run_max, tree_name="CdEvents"):
+def merge_runs(input_folder, output_folder, run_min, run_max, tree_name='PromptDelayedPairs'):
     pattern = re.compile(r"RUN(\d+)_.*\.root")
     runs = {}
     for filename in os.listdir(input_folder):
